@@ -1,10 +1,13 @@
-​									[<img src="FROGS_logo.png" width="20%" style="display: block; margin: auto;"/>](http://frogs.toulouse.inra.fr/)
+<p align="center">
+ <a href="http://frogs.toulouse.inra.fr/">
+  <img src="FROGS_logo.png" align="center" width="20%" style="display: block; margin: auto;"/>
+ </a>
+</p>
 
-Visit our web site : http://frogs.toulouse.inra.fr/
+Visit our web site : http://frogs.toulouse.inrae.fr/
 
 
-
-[![Release](https://img.shields.io/badge/release-3.1.0-blue.svg)![Date](https://img.shields.io/badge/date-January%202018-red.svg)](https://github.com/geraldinepascal/FROGS-wrappers/releases) [<img src="https://www.podcastscience.fm/wp-content/uploads/2017/12/deezer.png" width="5%" style="display: block; margin: auto;"/>](https://www.deezer.com/fr/playlist/5233843102?utm_source=deezer&utm_content=playlist-5233843102&utm_term=18632989_1545296531&utm_medium=web)
+[![Release](https://img.shields.io/badge/release-3.2.0-blue.svg)![Date](https://img.shields.io/badge/date-May%202020-red.svg)](https://github.com/geraldinepascal/FROGS-wrappers/releases) [<img src="https://www.podcastscience.fm/wp-content/uploads/2017/12/deezer.png" width="5%" style="display: block; margin: auto;"/>](https://www.deezer.com/fr/playlist/5233843102?utm_source=deezer&utm_content=playlist-5233843102&utm_term=18632989_1545296531&utm_medium=web)
 
 
 
@@ -92,31 +95,23 @@ This FROGS repository is for command line user. If you want to install FROGS on 
 
 ## Tools dependancies
 
-FROGS is written in Python 2.7, uses on home-made scripts written in PERL5 and uses on external Python library, Scipy.
+FROGS is written in Python 3.7, uses home-made scripts written in PERL5 and R 3.6 and uses external Python library, numpy and Scipy.
 
 FROGS relies on different specific tools for each of the analysis step.
 
-| FROGS Tools                   |                          Dependancy                          |                 version tested |
-| ----------------------------- | :----------------------------------------------------------: | -----------------------------: |
-| Preprocess and Remove_chimera |        [vsearch](https://github.com/torognes/vsearch)        |                          2.9.1 |
-| Preprocess                    | [flash](https://sourceforge.net/projects/flashpage/files/) (optional) |                         1.2.11 |
-| Preprocess                    |       [cutadapt](https://github.com/marcelm/cutadapt)        |                           1.18 |
-| Clustering                    |          [swarm](https://github.com/torognes/swarm)          |                          2.2.2 |
-| ITSx                          |        [ITSx](http://microbiology.se/software/itsx/)         | 1.0.11, 1.1b is also validated |
-| Affiliation_OTU               | [NCBI BLAST+](http://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download) |                          2.7.1 |
-| Affiliation_OTU               |    [RDP Classifier](https://github.com/rdpstaff/RDPTools)    |                        2.0.2.1 |
-| Affiliation_OTU               |                           taskset                            |                           2.21 |
-| Affiliation_OTU               | [EMBOSS needleall](http://emboss.sourceforge.net/apps/release/6.6/emboss/apps/needleall.html) |                          6.6.0 |
-| Tree                          |       [MAFFT](https://mafft.cbrc.jp/alignment/server/)       |                          7.407 |
-| Tree                          |     [FastTree](http://www.microbesonline.org/fasttree/)      |                         2.1.10 |
-| FROGSSTAT Phyloseq tools      |               [R](https://www.r-project.org/)                |                          3.5.1 |
-| FROGSSTAT Phyloseq tools      | [R package phangorn](https://cran.r-project.org/web/packages/phangorn/index.html) |                          2.4.0 |
-| FROGSSTAT Phyloseq tools      | [R package rmarkdown](https://cran.r-project.org/web/packages/rmarkdown/index.html) |                           1.10 |
-| FROGSSTAT Phyloseq tools      | [R package plotly](https://cran.r-project.org/web/packages/plotly/index.html) |                          4.8.0 |
-| FROGSSTAT Phyloseq tools      | [R package gridExtra](https://cran.r-project.org/web/packages/gridExtra/index.html) |                            2.3 |
-| FROGSSTAT Phyloseq tools      | [R package Phyloseq](https://joey711.github.io/phyloseq/index.html) |                         1.24.2 |
-| FROGSSTAT Phyloseq tools      | [R package Phyloseq-extend](https://github.com/mahendra-mariadassou/phyloseq-extended) |                           0.99 |
-| FROGSSTAT Phyloseq tools      |                [pandoc](https://pandoc.org/)                 |                       1.19.2.1 |
+| FROGS Tools                   |                          Dependancy                          |       version tested | last version |
+| ----------------------------- | :----------------------------------------------------------: | -------------------: | ------------ |
+| Preprocess and Remove_chimera |        [vsearch](https://github.com/torognes/vsearch)        | from 2.9.1 to 2.13.1 | 2.14.2       |
+| Preprocess                    | [flash](https://sourceforge.net/projects/flashpage/files/) (optional) |               1.2.11 | last         |
+| Preprocess                    |       [cutadapt](https://github.com/marcelm/cutadapt)        |                 1.18 | 2.9          |
+| Clustering                    |          [swarm](https://github.com/torognes/swarm)          |                2.2.2 | 3.0.0        |
+| ITSx                          |        [ITSx](http://microbiology.se/software/itsx/)         |      1.0.11 and 1.1b | 1.1.2         |
+| Affiliation_OTU               | [NCBI BLAST+](http://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download) |                2.7.1 | 2.9.0        |
+| Affiliation_OTU               |    [RDP Classifier](https://github.com/rdpstaff/RDPTools)    |                2.0.3 | last         |
+| Affiliation_OTU               | [EMBOSS needleall](http://emboss.sourceforge.net/apps/release/6.6/emboss/apps/needleall.html) |                6.6.0 | last         |
+| Tree                          |       [MAFFT](https://mafft.cbrc.jp/alignment/server/)       |                7.407 | 7.464        |
+| Tree                          |     [Fasttree](http://www.microbesonline.org/fasttree/)      |               2.1.10 | last         |
+| Tree / FROGSSTAT              | [plotly](https://plotly.com/r/), [phangorn](https://cran.r-project.org/web/packages/phangorn/index.html), [rmarkdown](https://cran.r-project.org/web/packages/rmarkdown/index.html), [phyloseq](https://joey711.github.io/phyloseq/), [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html), [optparse](https://cran.r-project.org/web/packages/optparse/index.html), [calibrate](https://cran.r-project.org/web/packages/calibrate/index.html), [formattable](https://cran.r-project.org/web/packages/formattable/), [DT](https://cran.r-project.org/web/packages/DT/index.html) |  depend on R version |              |
 
 ### **Use PEAR as read pairs merging software in preprocess**
 
@@ -133,20 +128,12 @@ For that you need to:
 
 FROGS is now available on bioconda (https://anaconda.org/bioconda/frogs).
 
-* to install the last version of FROGS, and add it in your PATH
-
-```
-  conda install -c bioconda frogs 
-  # to update frogs
-  conda update frogs
-```
-
   * to create a specific environment for a specific FROGS version
 
 ```
-conda create --name FROGS_3.1 frogs=3.1.0
+conda create --name __frogs@3.2.0 frogs=3.2.0
 # to use FROGS, first you need to activate your environment
-source activate FROGS_3.1
+source activate __frogs@3.2.0
 ```
 
 ### From source
@@ -168,28 +155,32 @@ sh test.sh ~/FROGS <NB_CPU> <JAVA_MEM> <OUT_FOLDER>
 This test executes the FROGS tools in command line mode.
 Example:
 ```
-[user@computer:/home/frogs/FROGS/test/]$ sh test.sh ~/FROGS 2 4 res
-Step preprocess : Flash mercredi 10 octobre 2018, 14:11:30 (UTC+0200)
-Step preprocess : Vsearch mercredi 10 octobre 2018, 14:13:33 (UTC+0200)
-Step clustering mercredi 10 octobre 2018, 14:15:36 (UTC+0200)
-Step remove_chimera mercredi 10 octobre 2018, 14:18:43 (UTC+0200)
-Step filters mercredi 10 octobre 2018, 14:22:36 (UTC+0200)
-Step ITSx mercredi 10 octobre 2018, 14:22:42 (UTC+0200)
-Step affiliation_OTU mercredi 10 octobre 2018, 14:22:42 (UTC+0200)
-Step affiliation_postprocess mercredi 10 octobre 2018, 14:23:08 (UTC+0200)
-Step clusters_stat mercredi 10 octobre 2018, 14:23:08 (UTC+0200)
-Step affiliations_stat mercredi 10 octobre 2018, 14:23:09 (UTC+0200)
-Step biom_to_tsv mercredi 10 octobre 2018, 14:23:12 (UTC+0200)
-Step biom_to_stdBiom mercredi 10 octobre 2018, 14:23:12 (UTC+0200)
-Step tsv_to_biom mercredi 10 octobre 2018, 14:23:12 (UTC+0200)
-Step tree : mafft mercredi 10 octobre 2018, 14:23:26 (UTC+0200)
-Step r_import_data mercredi 10 octobre 2018, 14:25:25 (UTC+0200)
-Step r_composition mercredi 10 octobre 2018, 14:25:39 (UTC+0200)
-Step r_alpha_diversity mercredi 10 octobre 2018, 14:25:53 (UTC+0200)
-Step r_beta_diversity mercredi 10 octobre 2018, 14:26:19 (UTC+0200)
-Step r_structure mercredi 10 octobre 2018, 14:26:31 (UTC+0200)
-Step r_clustering mercredi 10 octobre 2018, 14:26:47 (UTC+0200)
-Step r_manova mercredi 10 octobre 2018, 14:26:57 (UTC+0200)
+[user@computer:/home/frogs/FROGS/test/]$ sh test.sh ~/FROGS 1 2 res
+Step preprocess : Flash lundi 11 mai 2020, 17:31:35 (UTC+0200)
+Step preprocess : Vsearch lundi 11 mai 2020, 17:34:48 (UTC+0200)
+Step clustering lundi 11 mai 2020, 17:39:00 (UTC+0200)
+Step remove_chimera lundi 11 mai 2020, 17:44:21 (UTC+0200)
+Step otu filters lundi 11 mai 2020, 17:47:17 (UTC+0200)
+Step ITSx lundi 11 mai 2020, 17:47:29 (UTC+0200)
+Step affiliation_OTU lundi 11 mai 2020, 17:47:30 (UTC+0200)
+Step affiliation_filter: masking mode lundi 11 mai 2020, 17:48:13 (UTC+0200)
+Step affiliation_filter: deleted mode lundi 11 mai 2020, 17:48:13 (UTC+0200)
+Step affiliation_postprocess lundi 11 mai 2020, 17:48:13 (UTC+0200)
+Step clusters_stat lundi 11 mai 2020, 17:48:14 (UTC+0200)
+Step affiliations_stat lundi 11 mai 2020, 17:48:16 (UTC+0200)
+Step biom_to_tsv lundi 11 mai 2020, 17:48:22 (UTC+0200)
+Step biom_to_stdBiom lundi 11 mai 2020, 17:48:22 (UTC+0200)
+Step tsv_to_biom lundi 11 mai 2020, 17:48:22 (UTC+0200)
+Step tree : mafft lundi 11 mai 2020, 17:48:23 (UTC+0200)
+Step r_import_data lundi 11 mai 2020, 17:49:03 (UTC+0200)
+Step r_composition lundi 11 mai 2020, 17:49:50 (UTC+0200)
+Step r_alpha_diversity lundi 11 mai 2020, 17:50:37 (UTC+0200)
+Step r_beta_diversity lundi 11 mai 2020, 17:51:05 (UTC+0200)
+Step r_structure lundi 11 mai 2020, 17:51:21 (UTC+0200)
+Step r_clustering lundi 11 mai 2020, 17:52:06 (UTC+0200)
+Step r_manova lundi 11 mai 2020, 17:52:21 (UTC+0200)
+Step deseq2_preprocess lundi 11 mai 2020, 17:52:35 (UTC+0200)
+Step deseq2_visualization lundi 11 mai 2020, 17:53:06 (UTC+0200)
 Completed with success
 ```
 
@@ -221,19 +212,19 @@ Please take time to read individual README.txt and LICENCE.txt files.
 
   these databanks are formatted for NCBI Blast+ and RDP Classifier
 
-  [available databases](http://genoweb.toulouse.inra.fr/frogs_databanks/assignation/readme.txt) : http://genoweb.toulouse.inra.fr/frogs_databanks/assignation
+  [available databases](http://genoweb.toulouse.inrae.fr/frogs_databanks/assignation/readme.txt) : http://genoweb.toulouse.inra.fr/frogs_databanks/assignation
 
 * Contaminant databank
 
   these banks are formatted for NCBI Blast+
 
-  http://genoweb.toulouse.inra.fr/frogs_databanks/contaminants
+  http://genoweb.toulouse.inrae.fr/frogs_databanks/contaminants
 
 * Hyper variable in length amplicon databank
 
   This is simply fasta file.
 
-  http://genoweb.toulouse.inra.fr/frogs_databanks/HVL
+  http://genoweb.toulouse.inrae.fr/frogs_databanks/HVL
 
 
 
@@ -262,7 +253,7 @@ GNU GPL v3
 
 
 # Copyright
-2018 INRA
+2020 INRAE
 
 
 # Citation
@@ -270,4 +261,4 @@ Please cite the **FROGS article**: *Escudie F., et al. Bioinformatics, 2018. FRO
 
 
 # Contact
-frogs@inra.fr
+frogs@inrae.fr

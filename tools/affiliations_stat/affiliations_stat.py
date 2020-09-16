@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 #
 # Copyright (C) 2018 INRA
 #
@@ -20,7 +20,7 @@ __author__ = 'Frederic Escudie - Plateforme bioinformatique Toulouse'
 __copyright__ = 'Copyright (C) 2015 INRA'
 __license__ = 'GNU General Public License'
 __version__ = '3.2'
-__email__ = 'frogs-support@inra.fr'
+__email__ = 'frogs-support@inrae.fr'
 __status__ = 'prod'
 
 
@@ -37,7 +37,7 @@ os.environ['PATH'] = BIN_DIR + os.pathsep + os.environ['PATH']
 LIB_DIR = os.path.abspath(os.path.join(os.path.dirname(CURRENT_DIR), "lib"))
 sys.path.append(LIB_DIR)
 if os.getenv('PYTHONPATH') is None: os.environ['PYTHONPATH'] = LIB_DIR
-else: os.environ['PYTHONPATH'] = os.environ['PYTHONPATH'] + os.pathsep + LIB_DIR
+else: os.environ['PYTHONPATH'] = LIB_DIR + os.pathsep + os.environ['PYTHONPATH']
 
 from frogsUtils import *
 from frogsBiom import BiomIO
@@ -91,7 +91,7 @@ class Rarefaction(Cmd):
         counts = sorted(counts)
         nb_samples = len(counts)
         # Finds the lower quartile number of sequences
-        lower_quartile_idx = nb_samples/4
+        lower_quartile_idx = int(nb_samples/4)
         nb_seq = counts[lower_quartile_idx]
         # If lower quartile sample is empty
         if nb_seq == 0:
@@ -156,18 +156,18 @@ def get_bootstrap_distrib( input_biom, bootstrap_tag, multiple_tag ):
         observation_metadata = observation['metadata']
         bootstrap = None
         if multiple_tag is not None:
-            if observation_metadata.has_key(multiple_tag) and len(observation_metadata[multiple_tag]) > 0:
+            if multiple_tag in observation_metadata and len(observation_metadata[multiple_tag]) > 0:
                 bootstrap = observation_metadata[multiple_tag][0][bootstrap_tag]
         else:
-            if observation_metadata.has_key(bootstrap_tag):
+            if bootstrap_tag in observation_metadata:
                 bootstrap = observation_metadata[bootstrap_tag]
         if bootstrap is not None:
             for taxonomy_depth, rank_bootstrap in enumerate( bootstrap ):
                 rank_bootstrap = rank_bootstrap * 100
                 rank = args.taxonomic_ranks[taxonomy_depth]
-                if not bootstrap_results.has_key(rank):
+                if rank not in bootstrap_results:
                     bootstrap_results[rank] = dict()
-                if not bootstrap_results[rank].has_key(rank_bootstrap):
+                if rank_bootstrap not in bootstrap_results[rank]:
                     bootstrap_results[rank][rank_bootstrap] = {
                         "clstr": 0,
                         "seq": 0
@@ -200,24 +200,24 @@ def get_alignment_distrib( input_biom, identity_tag, coverage_tag, multiple_tag 
         identity = 0
         coverage = 0
         if args.multiple_tag is not None:
-            if observation_metadata.has_key(multiple_tag) and len(observation_metadata[multiple_tag]) > 0:
+            if multiple_tag in observation_metadata and len(observation_metadata[multiple_tag]) > 0:
                 identity = observation_metadata[multiple_tag][0][identity_tag]
                 coverage = observation_metadata[multiple_tag][0][coverage_tag]
         else:
-            if observation_metadata.has_key(identity_tag) and observation_metadata.has_key(coverage_tag):
+            if identity_tag in observation_metadata and coverage_tag in observation_metadata:
                 identity = observation_metadata[identity_tag]
                 coverage = observation_metadata[coverage_tag]
-        if not aln_results_hash.has_key( identity ):
+        if identity not in aln_results_hash:
             aln_results_hash[identity] = dict()
-        if not aln_results_hash[identity].has_key( coverage ):
+        if coverage not in aln_results_hash[identity]:
             aln_results_hash[identity][coverage] = {
                 "clstr": 0,
                 "seq": 0
             }
         aln_results_hash[identity][coverage]["clstr"] += 1
         aln_results_hash[identity][coverage]["seq"] += biom.get_observation_count( observation['id'] )
-    for ident in aln_results_hash.keys():
-        for cover in aln_results_hash[ident].keys():
+    for ident in list(aln_results_hash.keys()):
+        for cover in list(aln_results_hash[ident].keys()):
             aln_results.append([
                 ident,
                 cover,
@@ -265,7 +265,7 @@ def write_summary( summary_file, input_biom, tree_count_file, tree_ids_file, rar
         rank = args.rarefaction_ranks[rank_idx]
         FH_rarefaction = open( current_file )
         for line in FH_rarefaction:
-            fields = map(str.strip, line.split("\t"))
+            fields = list(map(str.strip, line.split("\t")))
             if line.startswith('#'):
                 samples = fields[1:]
                 if rarefaction is None:
@@ -278,7 +278,7 @@ def write_summary( summary_file, input_biom, tree_count_file, tree_ids_file, rar
             else:
                 if rarefaction_step_size is None:
                     rarefaction_step_size = int(fields[0])
-                if not rarefaction[sample].has_key( rank ):
+                if rank not in rarefaction[sample]:
                     rarefaction[sample][rank] = list()
                 for idx, sample in enumerate(samples):
                     if fields[idx+1] != "":
@@ -288,7 +288,7 @@ def write_summary( summary_file, input_biom, tree_count_file, tree_ids_file, rar
 
     # Write
     FH_summary_tpl = open( os.path.join(CURRENT_DIR, "affiliations_stat_tpl.html") )
-    FH_summary_out = open( summary_file, "w" )
+    FH_summary_out = open( summary_file, "wt" )
     for line in FH_summary_tpl:
         if "###TAXONOMIC_RANKS###" in line:
             line = line.replace( "###TAXONOMIC_RANKS###", json.dumps(args.taxonomic_ranks) )
@@ -382,22 +382,22 @@ if __name__ == '__main__':
     # Check parameters
         #check taxonomy tags (from FROGS or other biom)
     if args.multiple_tag is None and args.tax_consensus_tag is not None:
-        raise Exception( "The parameter '--tax-consensus-tag' must be used only with the parameter '--multiple-tag'." )
+        raise Exception( "\nThe parameter '--tax-consensus-tag' must be used only with the parameter '--multiple-tag'.\n\n" )
     if args.taxonomy_tag is None and args.tax_consensus_tag is None:
-        raise Exception( "The parameter '--taxonomy-tag' or the parameter '--tax-consensus-tag' must be set." )
+        raise Exception( "\nThe parameter '--taxonomy-tag' or the parameter '--tax-consensus-tag' must be set.\n\n" )
         # for FROGS biom identity AND coverage must be set
     if (args.identity_tag is None and args.coverage_tag is not None) or (args.identity_tag is not None and args.coverage_tag is None):
-        raise Exception( "The parameters '--identity-tag' and '--coverage-tag' must be setted together." )
+        raise Exception( "T\nhe parameters '--identity-tag' and '--coverage-tag' must be setted together.\n\n" )
         # check taxonomical rank intersection between rarefaction_ranks and all ranks
     for current_rank in args.rarefaction_ranks:
-        if current_rank not in args.taxonomic_ranks: raise Exception( "'" + current_rank + "' is not in valid taxonomic ranks : " + ", ".join(args.taxonomic_ranks) )
+        if current_rank not in args.taxonomic_ranks: raise Exception( "\n'" + current_rank + "' is not in valid taxonomic ranks : " + ", ".join(args.taxonomic_ranks) + "\n\n")
         # check the presence of each tag in input biom
     biom = BiomIO.from_json( args.input_biom )
     nb_rank = 0
     if args.multiple_tag is None:
         for param in [args.taxonomy_tag, args.bootstrap_tag, args.identity_tag, args.coverage_tag]:
             if param is not None and not biom.has_observation_metadata( param ):
-                raise Exception( "The metadata '" + param + "' does not exist in the BIOM file." )
+                raise Exception( "\nThe metadata '" + param + "' does not exist in the BIOM file.\n\n" )
         if biom.has_observation_metadata( args.taxonomy_tag ) :
             for observation in biom.get_observations():
                 if observation["metadata"][args.taxonomy_tag] is not None or len(observation["metadata"][args.taxonomy_tag]) > 0 :
@@ -405,14 +405,14 @@ if __name__ == '__main__':
                     break
     else:
         if args.tax_consensus_tag is not None and not biom.has_observation_metadata( args.tax_consensus_tag ):
-            raise Exception( "The metadata '" + args.tax_consensus_tag + "' does not exist in the BIOM file." )
+            raise Exception( "\nThe metadata '" + args.tax_consensus_tag + "' does not exist in the BIOM file.\n\n" )
         if biom.has_observation_metadata( args.tax_consensus_tag ) :
             for observation in biom.get_observations():
-                if observation["metadata"][args.tax_consensus_tag] is not None or len(observation["metadata"][args.tax_consensus_tag]) > 0 :
+                if observation["metadata"][args.tax_consensus_tag] is not None and len(observation["metadata"][args.tax_consensus_tag]) > 0 :
                     nb_rank = len(observation["metadata"][args.tax_consensus_tag])
                     break
     if nb_rank != len(args.taxonomic_ranks):
-        raise Exception("Your taxonomic affiliations are defined on " + str(nb_rank) + " ranks but you define only " + str(len(args.taxonomic_ranks)) + " taxonomic ranks names : "+ ", ".join(args.taxonomic_ranks))
+        raise Exception("\nYour taxonomic affiliations are defined on " + str(nb_rank) + " ranks but you define only " + str(len(args.taxonomic_ranks)) + " taxonomic ranks names : "+ ", ".join(args.taxonomic_ranks)+"\n\n")
     del biom
 
     # Process

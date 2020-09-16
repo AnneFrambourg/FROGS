@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 #
 # Copyright (C) 2018 INRA
 #
@@ -20,7 +20,7 @@ __author__ = 'Maria Bernard - Sigenae INRA'
 __copyright__ = 'Copyright (C) 2016 INRA'
 __license__ = 'GNU General Public License'
 __version__ = '3.2'
-__email__ = 'frogs-support@inra.fr'
+__email__ = 'frogs-support@inrae.fr'
 __status__ = 'dev'
 
 import os
@@ -35,7 +35,7 @@ os.environ['PATH'] = BIN_DIR + os.pathsep + os.environ['PATH']
 LIB_DIR = os.path.abspath(os.path.join(os.path.dirname(CURRENT_DIR), "lib"))
 sys.path.append(LIB_DIR)
 if os.getenv('PYTHONPATH') is None: os.environ['PYTHONPATH'] = LIB_DIR
-else: os.environ['PYTHONPATH'] = os.environ['PYTHONPATH'] + os.pathsep + LIB_DIR
+else: os.environ['PYTHONPATH'] = LIB_DIR + os.pathsep + os.environ['PYTHONPATH']
 
 from frogsUtils import *
 
@@ -80,7 +80,7 @@ class Tsv2biom(Cmd):
         observation_name_index = header.index("observation_name")
         observation_sum_index = header.index("observation_sum")
         if (observation_sum_index - observation_name_index) != 1:
-            raise Exception( "You change the order of columns. TSV file must ended with observation_name, observation_sum, sample1, sample2 ... \n" )
+            raise Exception( "\nYou change the order of columns. TSV file must ended with observation_name, observation_sum, sample1, sample2 ... \n\n" )
         samples_names = " ".join(header[observation_sum_index+1:])
         fields = " ".join(header[:observation_sum_index])
         # Set command

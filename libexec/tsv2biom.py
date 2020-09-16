@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 #
 # Copyright (C) 2016 INRA
 #
@@ -20,7 +20,7 @@ __author__ = 'Maria Bernard - Sigenae INRA'
 __copyright__ = 'Copyright (C) 2016 INRA'
 __license__ = 'GNU General Public License'
 __version__ = '1.2.0'
-__email__ = 'frogs-support@inra.fr'
+__email__ = 'frogs-support@inrae.fr'
 __status__ = 'prod'
 
 import os
@@ -69,7 +69,7 @@ def store_multihits(input_multihits):
 
     for line in FH_in.readlines():
         line = line.strip().replace('"','').split("\t")
-        d=dict(zip(header_line,line))
+        d=dict(list(zip(header_line,line)))
         observation_name = d.pop("observation_name")
         if observation_name in multi_hit_dict:
             multi_hit_dict[observation_name].append(d)
@@ -181,7 +181,7 @@ def tsv_to_biom( input_tsv, multi_hit_dict, fields, samples_names, output_biom, 
     in_fh = open( input_tsv )
 
     if not output_fasta is None:
-        Fasta_fh=FastaIO(output_fasta , "w" )
+        Fasta_fh=FastaIO(output_fasta , "wt" )
 
     # parse header and store column index 
     header=in_fh.readline()
@@ -208,7 +208,7 @@ def tsv_to_biom( input_tsv, multi_hit_dict, fields, samples_names, output_biom, 
                 else:
                     metadata_dict[metadata_index[idx]] = val
             # recover samples count
-            elif idx in sample_index and val > 0:
+            elif idx in sample_index and int(val) > 0:
                 count_by_sample[sample_index[idx]] = int(val)
             # recover seed sequence
             elif idx == seed_seq_idx:
@@ -272,7 +272,7 @@ def tsv_to_biom( input_tsv, multi_hit_dict, fields, samples_names, output_biom, 
     for cluster_name in clusters_count:
         biom.add_observation( cluster_name, clusters_metadata[cluster_name] )
         for sample_name in samples_names:
-            if clusters_count[cluster_name][sample_name] > 0:
+            if sample_name in clusters_count[cluster_name]:
                 biom.add_count( cluster_name, sample_name, clusters_count[cluster_name][sample_name] )
 
     # Write

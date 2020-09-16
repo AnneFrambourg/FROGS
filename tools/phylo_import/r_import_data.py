@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 #
 # Copyright (C) 2018 INRA
 #
@@ -19,7 +19,7 @@ __author__ = ' Ta Thi Ngan & Maria Bernard INRA - SIGENAE '
 __copyright__ = 'Copyright (C) 2017 INRA'
 __license__ = 'GNU General Public License'
 __version__ = '3.2'
-__email__ = 'frogs-support@inra.fr'
+__email__ = 'frogs-support@inrae.fr'
 __status__ = 'prod'
 
 import os
@@ -42,7 +42,7 @@ os.environ['PATH'] = APP_DIR + os.pathsep + os.environ['PATH']
 LIB_DIR = os.path.abspath(os.path.join(FROGS_DIR, "lib"))
 sys.path.append(LIB_DIR)
 if os.getenv('PYTHONPATH') is None: os.environ['PYTHONPATH'] = LIB_DIR
-else: os.environ['PYTHONPATH'] = os.environ['PYTHONPATH'] + os.pathsep + LIB_DIR
+else: os.environ['PYTHONPATH'] = LIB_DIR + os.pathsep + os.environ['PYTHONPATH']
 # LIBR
 LIBR_DIR = os.path.join(LIB_DIR,"external-lib")
 from frogsUtils import *
@@ -121,7 +121,7 @@ if __name__ == "__main__":
     parser.add_argument( '-r','--ranks', type=str, nargs='*', default=['Kingdom', 'Phylum', 'Class', 'Order','Family','Genus', 'Species'], help='The ordered taxonomic ranks levels stored in BIOM. Each rank is separated by one space. [Default: %(default)s]')      
     # Inputs
     group_input = parser.add_argument_group( 'Inputs' )
-    group_input.add_argument( '-b', '--biomfile', required=True, help='path to standard biom file (format: biom1). These file is the result of FROGS.' )
+    group_input.add_argument( '-b', '--biomfile', required=True, help='path to the abundance biom file.' )
     group_input.add_argument( '-s', '--samplefile', required=True, help='path to sample file (format: tabular).' )
     group_input.add_argument( '-t', '--treefile', default=None, help='path to tree file from FROGS Tree (format: Newich "nhx" or "nwk" ).' )
    
@@ -145,7 +145,7 @@ if __name__ == "__main__":
     to_standardize = False
     if not biom.has_metadata("taxonomy") :
         if not biom.has_metadata("blast_taxonomy"):
-            raise Exception("Your biom input file is not comming from FROGS and has no standard taxonomy metadata.\n")
+            raise Exception("\nYour biom input file is not comming from FROGS and has no standard taxonomy metadata.\n\n")
         else:
             to_standardize=True
     # check sample names compatibility between input biom and sample metadata file
@@ -158,7 +158,7 @@ if __name__ == "__main__":
     biom_sample_list = set([name for name in biom.get_samples_names()])
 
     if sample_metadata_list.difference(biom_sample_list) or biom_sample_list.difference(sample_metadata_list):
-        raise Exception("Samples names are not consistent between sample metadata file and biom file\n" + "samples specific from sample metadata file are :" + ", ".join([str(s) for s in sample_metadata_list.difference(biom_sample_list) ]) + "\n" + "samples specific from biom file are : " + ", ".join([str(s) for s in biom_sample_list.difference(sample_metadata_list) ]))
+        raise Exception("\nSamples names are not consistent between sample metadata file and biom file\n" + "samples specific from sample metadata file are :" + ", ".join([str(s) for s in sample_metadata_list.difference(biom_sample_list) ]) + "\n" + "samples specific from biom file are : " + ", ".join([str(s) for s in biom_sample_list.difference(sample_metadata_list) ]) + "\n\n")
 
     if (args.treefile is None) :
         treefile="None"

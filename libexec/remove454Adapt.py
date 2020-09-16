@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 #
 # Copyright (C) 2015 INRA
 #
@@ -19,8 +19,8 @@
 __author__ = 'Frederic Escudie - Plateforme bioinformatique Toulouse'
 __copyright__ = 'Copyright (C) 2015 INRA'
 __license__ = 'GNU General Public License'
-__version__ = '0.5.0'
-__email__ = 'frogs-support@inra.fr'
+__version__ = '1.0'
+__email__ = 'frogs-support@inrae.fr'
 __status__ = 'prod'
 
 import os
@@ -113,7 +113,7 @@ def get_cutadapt_version():
         cmd = 'cutadapt --version'
         p = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
         stdout, stderr = p.communicate()
-        version = stdout.strip()
+        version = stdout.decode('utf-8').strip()
     except:
         version = "unknown"
     return version
@@ -201,10 +201,10 @@ if __name__ == "__main__":
                 to_rvc[record.id] = 1
             fh_in_excluded.close()
 
-        fh_rvc_out = FastqIO( tmp_rvc_fastq, "w" )
+        fh_rvc_out = FastqIO( tmp_rvc_fastq, "wt" )
         fh_initial_in = FastqIO( args.input )
         for record in fh_initial_in:
-            if to_rvc.has_key( record.id ):
+            if record.id in to_rvc:
                 record.string = rvc(record.string)
                 fh_rvc_out.write( record )
         fh_initial_in.close()
@@ -229,7 +229,7 @@ if __name__ == "__main__":
                                " > " + tmp_rvc_3prim_log, shell=True )
 
         # Merge
-        fh_final_out = FastqIO( args.output, "w" )
+        fh_final_out = FastqIO( args.output, "wt" )
         for trimmed in [tmp_3prim_trimmed, tmp_rvc_3prim_trimmed]:
             fh_in_trimmed = FastqIO( trimmed )
             for record in fh_in_trimmed:

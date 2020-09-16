@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 #
 # Copyright (C) 2015 INRA
 #
@@ -20,7 +20,7 @@ __author__ = 'Maria Bernard - Sigenae AND Frederic Escudie - Plateforme bioinfor
 __copyright__ = 'Copyright (C) 2015 INRA'
 __license__ = 'GNU General Public License'
 __version__ = '1.5.0'
-__email__ = 'frogs-support@inra.fr'
+__email__ = 'frogs-support@inrae.fr'
 __status__ = 'prod'
 
 import os
@@ -147,7 +147,7 @@ def biom_to_tsv( input_biom, output_tsv, fields, list_separator ):
     @param list_separator: [str] Separator for complex metadata.
     """
     biom = BiomIO.from_json( input_biom )
-    out_fh = open( output_tsv, "w" )
+    out_fh = open( output_tsv, "wt" )
     # Header
     header_parts = header_line_parts( fields, biom )
     out_fh.write( "#" + "\t".join(header_parts) + "\n" )
@@ -167,7 +167,7 @@ def biom_fasta_to_tsv( input_biom, input_fasta, output_tsv, fields, list_separat
     @param list_separator: [str] Separator for complex metadata.
     """
     biom = BiomIO.from_json( input_biom )
-    out_fh = open( output_tsv, "w" )
+    out_fh = open( output_tsv, "wt" )
     sequence_idx = fields.index("@seed_sequence")
     # Header
     header_parts = header_line_parts( fields, biom )

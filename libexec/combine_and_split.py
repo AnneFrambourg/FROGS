@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 #
 # Copyright (C) 2014 INRA
 #
@@ -19,9 +19,9 @@
 __author__ = 'Maria Bernard - Sigenae team Jouy en Josas'
 __copyright__ = 'Copyright (C) 2015 INRA'
 __license__ = 'GNU General Public License'
-__version__ = '0.0.0'
-__email__ = 'frogs-support@inra.fr'
-__status__ = 'dev'
+__version__ = '1.0.0'
+__email__ = 'frogs-support@inrae.fr'
+__status__ = 'prod'
 
 import os,sys
 import argparse
@@ -48,9 +48,9 @@ def get_nb_seq( reads_file ):
     """
     FH_input = None
     if not is_gzip(reads_file):
-        FH_input = open( reads_file )
+        FH_input = open( reads_file, 'rt')
     else:
-        FH_input = gzip.open( reads_file )
+        FH_input = gzip.open( reads_file,'rt' )
     nb_line = 0
     for line in FH_input:
         nb_line += 1
@@ -73,7 +73,7 @@ def checkQualityEncode ( input ):
     }
 
     FH_in = FastqIO(input)
-    print input
+    # print(input)
     encoding = ""
     gmin, gmax  = 99, 0
 
@@ -84,7 +84,7 @@ def checkQualityEncode ( input ):
         if qmin < gmin or qmax > gmax:
             gmin, gmax = min(qmin, gmin), max(qmax, gmax)
             valid_encodings = []
-            for encoding, (emin, emax) in RANGES.items():
+            for encoding, (emin, emax) in list(RANGES.items()):
                 if gmin >= emin and gmax <= emax:
                     valid_encodings.append(encoding)
             if len(valid_encodings) == 1 and encoding == "" :
@@ -115,18 +115,20 @@ def splitSeq (input, format, tag, revcomp, out1, out2):
     """
 
     FH_in = FastqIO(input) if format == "fastq" else FastaIO(input)
-    FH_out1 = FastqIO(out1,"w") if format == "fastq" else FastaIO(out1,"w")
+    FH_out1 = FastqIO(out1,"wt") if format == "fastq" else FastaIO(out1,"wt")
     if out2:
-        FH_out2 = FastqIO(out2,"w") if format == "fastq" else FastaIO(out2,"w")
+        FH_out2 = FastqIO(out2,"wt") if format == "fastq" else FastaIO(out2,"wt")
 
-    seq_id=[]
+    # seq_id=[]
 
     for record in FH_in:
         record.id=record.id.replace("_FROGS_combined","")
-        if record.id in seq_id:
-            raise Exception(record.id+" present multiple time in your input file")
-        else:
-            seq_id.append(record.id)
+
+        # checking for duplicate like that take too much time!!
+        # if record.id in seq_id:
+        #     raise Exception(record.id+" present multiple time in your input file")
+        # else:
+        #     seq_id.append(record.id)
 
         split_seq = record.string.split(tag)
         if len(split_seq) != 2:
@@ -178,7 +180,7 @@ def combineSeq(input1, input2, format, tag, revcomp, out):
     FH_in2 = None
     if input2 : 
         FH_in2 = FastqIO(input2) if format == "fastq" else FastaIO(input2)
-    FH_out = FastqIO(out,"w") if format == "fastq" else FastaIO(out,"w")
+    FH_out = FastqIO(out,"wt") if format == "fastq" else FastaIO(out,"wt")
 
     iter1 = FH_in1.__iter__()
     for record1 in iter1:
@@ -190,7 +192,7 @@ def combineSeq(input1, input2, format, tag, revcomp, out):
         if input2:
             record2 = FH_in2.next_seq()
         else : 
-            record2 = iter1.next()
+            record2 = next(iter1)
 
         record2.id = record2.id.replace("_FROGS_split_part2","")
         record2.desc = record2.description

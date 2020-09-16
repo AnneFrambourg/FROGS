@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 #
 # Copyright (C) 2018 INRA
 #
@@ -19,7 +19,7 @@ __author__ = 'Ta Thi Ngan & Maria Bernard INRA - SIGENAE'
 __copyright__ = 'Copyright (C) 2017 INRA'
 __license__ = 'GNU General Public License'
 __version__ = '3.2'
-__email__ = 'frogs-support@inra.fr'
+__email__ = 'frogs-support@inrae.fr'
 __status__ = 'prod'
 
 import os
@@ -42,7 +42,7 @@ os.environ['PATH'] = APP_DIR + os.pathsep + os.environ['PATH']
 LIB_DIR = os.path.abspath(os.path.join(FROGS_DIR, "lib"))
 sys.path.append(LIB_DIR)
 if os.getenv('PYTHONPATH') is None: os.environ['PYTHONPATH'] = LIB_DIR
-else: os.environ['PYTHONPATH'] = os.environ['PYTHONPATH'] + os.pathsep + LIB_DIR
+else: os.environ['PYTHONPATH'] = LIB_DIR + os.pathsep + os.environ['PYTHONPATH']
 # LIBR
 LIBR_DIR = os.path.join(LIB_DIR,"external-lib")
 
@@ -111,12 +111,12 @@ if __name__ == "__main__":
     
     Logger.static_write(args.log_file, "## Application\nSoftware :" + sys.argv[0] + " (version : " + str(__version__) + ")\nCommand : " + " ".join(sys.argv) + "\n\n")
     # check parameter
-    list_distance=["unifrac","wunifrac","bray","cc","dpcoa","jsd","manhattan","euclidean","canberra","kulczynski","jaccard","gower","altGower","morisita","horn","mountford","raup","binomial","chao","cao","w","-1","c","wb","r","I","e","t","me","j","sor","m","-2","co","g","-3","l","19","hk","rlb","sim","gl","z","maximum","binary","minkowski","ANY"]
+    list_distance=["unifrac","wunifrac","bray","cc","dpcoa","jsd","manhattan","euclidean","canberra","kulczynski","jaccard","gower","altGower","morisita","horn","mountford","raup","binomial","chao","cao","wt","-1","c","wb","rt","I","e","t","me","j","sor","m","-2","co","g","-3","l","19","hk","rlb","sim","gl","z","maximum","binary","minkowski","ANY"]
     
     methods = args.distance_methods.strip() if not args.distance_methods.strip()[-1]=="," else args.distance_methods.strip()[:-1]
     for method in methods.split(","):
         if method not in list_distance:
-            raise Exception( 'Your method "'+str(method)+'", name is not correct !!! Please make sure that it is in the list:'+str(list_distance))
+            raise Exception( '\nYour method "'+str(method)+'", name is not correct !!! Please make sure that it is in the list:'+str(list_distance)+"\n\n")
 
     # Process 
     outdir = os.path.abspath(args.matrix_outdir)
